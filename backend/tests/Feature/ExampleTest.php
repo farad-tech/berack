@@ -50,6 +50,7 @@ class ExampleTest extends TestCase
             ->assertSee('id="copy-tag"', false)
             ->assertSee('Ended by inactivity')
             ->assertSee('End undetermined')
+            ->assertSee('local timezone')
             ->assertSee('mailto:contact@berack.com')
             ->assertDontSee('<script async src=', false);
 

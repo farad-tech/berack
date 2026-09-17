@@ -106,7 +106,8 @@ class StandalonePanelTest extends TestCase
         $this->assertSame(0, $report->filteredJourneys(['status' => 'pending'])->get()->count());
         $this->assertSame(1, $report->filteredJourneys(['status' => 'ended', 'range' => '1'])->get()->count());
         $this->actingAs($user)->withSession(['locale' => 'en'])->get('/panel/sites/'.$site->id.'/reports?q=needle')
-            ->assertOk()->assertSee('/entry')->assertSee('/last')->assertSee('Journey details')->assertDontSee('livewire.js');
+            ->assertOk()->assertSee('/entry')->assertSee('/last')->assertSee('Journey details')
+            ->assertSee('class="local-time"', false)->assertSee('data-timezone-label', false)->assertDontSee('livewire.js');
         $this->get('/panel/sites/'.$site->id.'/reports?view=last-pages')->assertOk()->assertSee('/last');
         $this->get('/panel/sites/'.$site->id.'/reports?q=missing')->assertOk()->assertSee('No visits match');
     }

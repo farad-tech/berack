@@ -12,6 +12,7 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+*.zip
 
 # Logs and caches
 *.log

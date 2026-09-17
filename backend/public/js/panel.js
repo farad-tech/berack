@@ -8,6 +8,20 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local time';
+        const formatLocalTime = (element) => {
+            const date = new Date(element.dateTime);
+            if (Number.isNaN(date.getTime())) return;
+            const options = element.classList.contains('visit-time')
+                ? {month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false}
+                : element.closest('.step-head')
+                    ? {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false}
+                    : {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false};
+            element.textContent = new Intl.DateTimeFormat('en-US', {...options, timeZone: userTimeZone}).format(date);
+            element.title = userTimeZone;
+        };
+        document.querySelectorAll('.local-time').forEach(formatLocalTime);
+        document.querySelectorAll('[data-timezone-label]').forEach((element) => { element.textContent = userTimeZone; });
         document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
             preference = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
             document.documentElement.dataset.theme = preference;

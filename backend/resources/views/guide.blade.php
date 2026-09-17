@@ -80,8 +80,8 @@
             </section>
             <section class="doc-section" id="analytics" aria-labelledby="analytics-title">
                 <div class="doc-heading"><span class="doc-number">05</span><div><p class="eyebrow">READ THE PATH, NOT JUST THE COUNT</p><h2 id="analytics-title">Understand a journey</h2></div></div>
-                <p>Each visit in each tab has its own ordered path. Select a visit to see its entry page, recorded steps, timestamps in UTC, and last recorded page.</p>
-                <figure class="example-journey"><figcaption><span><x-panel.icon name="arrow-trending-up" />Example journey</span><span>1 visit &middot; 1 tab &middot; UTC</span></figcaption>
+                <p>Each visit in each tab has its own ordered path. Select a visit to see its entry page, recorded steps, timestamps in your browser's local timezone, and last recorded page.</p>
+                <figure class="example-journey"><figcaption><span><x-panel.icon name="arrow-trending-up" />Example journey</span><span>1 visit &middot; 1 tab &middot; Local time</span></figcaption>
                     <ol class="guide-timeline">
                         <li><span class="timeline-node entry">01</span><div><strong>/</strong><span>Home <small class="entry-label">First recorded step</small></span></div><time>10:00:00</time></li>
                         <li><span class="timeline-node">02</span><div><strong>/collection</strong><span>Collection</span></div><time>10:00:18</time></li>
