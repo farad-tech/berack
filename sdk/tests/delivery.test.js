@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { initializeQueue, enqueueEvent, getQueuedEvents, getQueueSize } from '../src/modules/event-queue.js';
+import { sendQueuedEvents } from '../src/modules/event-sender.js';
+import { sendQueuedEventsWithBeacon } from '../src/modules/beacon-sender.js';
+
+test('beacon and fetch overlap does not discard newer events; retries survive reload', async () => {
+    const storage = new Map();
+    globalThis.sessionStorage = { getItem: (key) => storage.get(key), setItem: (key, value) => storage.set(key, value) };
+    Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { sendBeacon: () => true } });
+    initializeQueue('test');
+    enqueueEvent({ event_id: 'a' });
+    let acknowledge;
+    globalThis.fetch = () => new Promise((resolve) => { acknowledge = resolve; });
+    const pending = sendQueuedEvents('/save-tracker', 'key');
+    assert.equal(sendQueuedEventsWithBeacon('/save-tracker', 'key'), true);
+    assert.equal(getQueueSize(), 1);
+    enqueueEvent({ event_id: 'b' });
+    acknowledge({ ok: true });
+    await pending;
+    assert.deepEqual(getQueuedEvents(), [{ event_id: 'b' }]);
+    initializeQueue('test');
+    assert.equal(getQueueSize(), 1);
+    globalThis.fetch = async () => ({ ok: false });
+    await sendQueuedEvents('/save-tracker', 'key');
+    assert.equal(getQueueSize(), 1);
+    globalThis.fetch = async () => ({ ok: true });
+    await sendQueuedEvents('/save-tracker', 'key');
+    assert.equal(getQueueSize(), 0);
+});

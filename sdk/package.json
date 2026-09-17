@@ -1,0 +1,17 @@
+{
+  "name": "berack-sdk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser SDK for Berack behaviour tracking and page analytics.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

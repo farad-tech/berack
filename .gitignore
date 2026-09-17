@@ -1,0 +1,68 @@
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.zed/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs and caches
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.phpunit.result.cache
+.phpunit.cache/
+
+# Local environment
+.env
+.env.*
+!.env.example
+*.local
+
+# Dependencies
+node_modules/
+vendor/
+backend/vendor/
+backend/node_modules/
+sdk/node_modules/
+
+# Build output
+dist/
+dist-ssr/
+backend/public/build/
+backend/public/css/filament/
+backend/public/fonts/filament/
+backend/public/js/filament/
+sdk/dist/
+
+# Laravel runtime
+backend/database/*.sqlite
+backend/storage/*.key
+backend/storage/pail/
+backend/storage/app/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/testing/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+!backend/storage/app/.gitignore
+!backend/storage/framework/.gitignore
+!backend/storage/logs/.gitignore
+
+# Agent / local tooling
+.agents/
+.codex/
+.github/
+backend/AGENTS.md
+backend/CLAUDE.md
