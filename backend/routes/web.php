@@ -40,6 +40,22 @@ Route::view('/guide', 'guide');
 Route::permanentRedirect('/en', '/');
 Route::permanentRedirect('/en/guide', '/guide');
 
+Route::get('/sitemap.xml', function () {
+    return response()->view('sitemap', [
+        'urls' => [url('/'), url('/guide')],
+    ], 200, [
+        'Content-Type' => 'application/xml; charset=UTF-8',
+        'Cache-Control' => 'public, max-age=3600',
+    ]);
+})->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    return response("User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /panel\nDisallow: /save-tracker\nDisallow: /sdk/\nSitemap: ".url('/sitemap.xml')."\n", 200, [
+        'Content-Type' => 'text/plain; charset=UTF-8',
+        'Cache-Control' => 'public, max-age=3600',
+    ]);
+})->name('robots');
+
 Route::post('/save-tracker', [TrackerEventController::class, 'store']);
 Route::options('/save-tracker', [TrackerEventController::class, 'preflight']);
 Route::get('/sdk/{apiKey}.js', [SdkController::class, 'show']);

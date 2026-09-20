@@ -66,4 +66,29 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(301)->assertRedirect('/guide');
     }
+
+    public function test_sitemap_contains_only_public_canonical_pages(): void
+    {
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
+            ->assertSee('<loc>'.url('/').'</loc>', false)
+            ->assertSee('<loc>'.url('/guide').'</loc>', false)
+            ->assertDontSee('/panel')
+            ->assertDontSee('/admin')
+            ->assertDontSee('/login')
+            ->assertDontSee('/register')
+            ->assertDontSee('/en');
+    }
+
+    public function test_robots_points_to_sitemap_and_excludes_private_routes(): void
+    {
+        $this->get('/robots.txt')
+            ->assertOk()
+            ->assertHeader('Content-Type', 'text/plain; charset=UTF-8')
+            ->assertSee('Sitemap: '.url('/sitemap.xml'))
+            ->assertSee('Disallow: /panel')
+            ->assertSee('Disallow: /admin')
+            ->assertSee('Disallow: /sdk/');
+    }
 }
