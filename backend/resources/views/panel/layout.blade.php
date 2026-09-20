@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ route('assets.fonts.vazirmatn.css') }}">
     <link rel="stylesheet" href="{{ asset('css/panel.css') }}?v={{ filemtime(public_path('css/panel.css')) }}">
     <script src="{{ asset('js/panel.js') }}?v={{ filemtime(public_path('js/panel.js')) }}"></script>
+    <meta name="robots" content="noindex,nofollow" />
 </head>
 <body class="{{ $isAuthPage ? 'auth-page' : 'workspace-page' }}">
 @if (!$isAuthPage)
