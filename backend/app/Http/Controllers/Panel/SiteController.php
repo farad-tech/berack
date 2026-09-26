@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use App\Services\JourneyReport;
+use App\Services\SiteTrends;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class SiteController extends Controller
 {
@@ -91,6 +93,41 @@ class SiteController extends Controller
         });
 
         return redirect()->route('panel.sites.index')->with('status', __('panel.site_deleted'));
+    }
+
+    public function trends(Request $request, string $site)
+    {
+        $site = $this->owned($request, $site);
+        $filters = $request->validate([
+            'period' => ['nullable', Rule::in(['day', 'week', 'month', 'year'])],
+            'date' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:2000-01-01', 'before:2100-01-01'],
+            'timezone' => ['nullable', 'timezone:all'],
+            'metric' => ['nullable', Rule::in(['visits', 'steps'])],
+        ]);
+        $trends = (new SiteTrends($site))->report($filters);
+
+        return view('panel.trends', compact('site', 'trends'));
+    }
+
+    public function resetForm(Request $request, string $site)
+    {
+        $site = $this->owned($request, $site);
+        $eventCount = $site->trackerEvents()->count();
+
+        return view('panel.reset-data', compact('site', 'eventCount'));
+    }
+
+    public function resetData(Request $request, string $site)
+    {
+        $site = $this->owned($request, $site);
+        $request->validate([
+            'domain' => ['required', 'string', Rule::in([$site->domain])],
+            'password' => ['required', 'current_password'],
+        ]);
+        $deleted = $site->trackerEvents()->delete();
+
+        return redirect()->route('panel.sites.trends', $site)
+            ->with('status', number_format($deleted).' recorded events removed. Your installation tag is still active.');
     }
 
     public function reports(Request $request, string $site)

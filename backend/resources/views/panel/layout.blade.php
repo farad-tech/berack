@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/panel.css') }}?v={{ filemtime(public_path('css/panel.css')) }}">
     <script src="{{ asset('js/panel.js') }}?v={{ filemtime(public_path('js/panel.js')) }}"></script>
     <meta name="robots" content="noindex,nofollow" />
+    @stack('head')
 </head>
 <body class="{{ $isAuthPage ? 'auth-page' : 'workspace-page' }}">
 @if (!$isAuthPage)
@@ -27,6 +28,7 @@
         </select></label>
     @endif
     <nav class="primary-nav">
+        @if ($currentSite)<a href="{{ route('panel.sites.trends', $currentSite) }}" @class(['nav-link', 'is-current' => request()->routeIs('panel.sites.trends')])><x-panel.icon name="chart-bar" />Trends</a>@endif
         <a href="{{ $currentSite ? route('panel.sites.reports', $currentSite) : route('panel.home') }}" @class(['nav-link', 'is-current' => request()->routeIs('panel.sites.reports')])><x-panel.icon name="arrow-trending-up" />{{ __('panel.journeys') }}</a>
         <a href="{{ route('panel.sites.index') }}" @class(['nav-link', 'is-current' => request()->routeIs('panel.sites.index', 'panel.sites.create')])><x-panel.icon name="squares-2x2" />{{ __('panel.sites') }}</a>
         <a href="{{ $currentSite ? route('panel.sites.show', $currentSite) : route('panel.installation') }}" @class(['nav-link', 'is-current' => request()->routeIs('panel.installation', 'panel.sites.show', 'panel.sites.edit')])><x-panel.icon name="code-bracket" />{{ __('panel.install') }}</a>

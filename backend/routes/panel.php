@@ -24,6 +24,9 @@ Route::prefix('panel')->group(function () {
         Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');
         Route::post('/sites', [SiteController::class, 'store'])->name('sites.store');
         Route::get('/sites/{site}/reports', [SiteController::class, 'reports'])->name('sites.reports');
+        Route::get('/sites/{site}/trends', [SiteController::class, 'trends'])->name('sites.trends');
+        Route::get('/sites/{site}/reset', [SiteController::class, 'resetForm'])->name('sites.reset');
+        Route::delete('/sites/{site}/events', [SiteController::class, 'resetData'])->middleware('throttle:5,1')->name('sites.reset-data');
         Route::get('/sites/{site}/edit', [SiteController::class, 'edit'])->name('sites.edit');
         Route::get('/sites/{site}', [SiteController::class, 'edit'])->name('sites.show');
         Route::put('/sites/{site}', [SiteController::class, 'update'])->name('sites.update');

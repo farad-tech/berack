@@ -1,0 +1,48 @@
+.trend-toolbar, .trend-period-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; }
+.trend-period-heading p { font-size: 12px; }
+.period-switch { display: inline-flex; border: 1px solid var(--line); background: var(--soft); border-radius: 6px; padding: 3px; gap: 3px; max-width: 100%; }
+.period-switch a { padding: 6px 12px; font-size: 12px; border-radius: 4px; }
+.period-switch a[aria-current="true"] { background: var(--surface); color: var(--green); box-shadow: var(--shadow); }
+.trend-date { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; }
+.trend-date label { display: grid; gap: 4px; color: var(--muted); font-size: 11px; min-width: 0; }
+.trend-date input, .trend-date select { height: 36px; padding: 5px 9px; max-width: 220px; }
+.trend-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); padding: 22px 0; gap: 25px; }
+.trend-metrics > div { display: grid; align-content: start; gap: 6px; min-width: 0; }
+.trend-metrics > div > span { color: var(--muted); font-size: 12px; }
+.trend-metrics strong { font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.trend-metrics strong.peak-label { font-size: 24px; }
+.trend-metrics small { font-size: 11px; }
+.trend-note { color: var(--muted); font-size: 11px; margin-top: 16px; }
+.trend-chart { padding: 28px 0; border-bottom: 1px solid var(--line); }
+.chart-scroll { overflow-x: auto; padding: 40px 0 8px; }
+.bar-chart { display: grid; grid-template-columns: repeat(var(--buckets), minmax(38px, 1fr)); gap: 6px; min-width: calc(var(--buckets) * 44px); padding-inline: 10px; }
+.chart-column { position: relative; display: grid; grid-template-rows: 22px 190px 30px; gap: 7px; text-align: center; min-width: 0; }
+.chart-value { font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar-track { height: 190px; display: flex; align-items: end; justify-content: center; background: var(--soft); border-bottom: 1px solid var(--line); }
+.trend-bar { width: 70%; max-width: 52px; background: var(--green); border-radius: 3px 3px 0 0; }
+.trend-bar.steps { background: var(--cyan); }
+.bucket-label { font-size: 9px; color: var(--muted); white-space: nowrap; }
+.chart-tooltip { display: none; position: absolute; top: -39px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-size: 10px; padding: 5px 8px; border-radius: 4px; width: max-content; max-width: 190px; z-index: 2; pointer-events: none; }
+.chart-column:hover .chart-tooltip, .chart-column:focus .chart-tooltip { display: block; }
+.chart-column:first-child .chart-tooltip { left: 0; transform: none; }
+.chart-column:last-child .chart-tooltip { left: auto; right: 0; transform: none; }
+.trend-empty { padding: 12px 0; color: var(--muted); font-size: 13px; }
+.trend-table { padding: 22px 0; }
+.trend-table summary { display: flex; gap: 10px; align-items: center; cursor: pointer; font-size: 13px; list-style: none; }
+.trend-table summary .icon { width: 16px; }
+.table-scroll { overflow-x: auto; }
+.trend-table table { width: 100%; border-collapse: collapse; margin-top: 18px; text-align: left; font-size: 12px; }
+.trend-table caption { text-align: left; color: var(--muted); padding: 8px 0; }
+.trend-table th, .trend-table td { border-bottom: 1px solid var(--line); padding: 10px; font-weight: 400; }
+.trend-table thead th { font-weight: 600; }
+.trend-table td { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+    .view-tabs { flex-wrap: wrap; gap: 8px 16px; }
+    .trend-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .trend-metrics > div:last-child { grid-column: 1 / -1; }
+    .trend-date { width: 100%; gap: 8px; }
+    .trend-date label { flex: 1; }
+    .trend-date input, .trend-date select { width: 100%; max-width: 100%; font-size: 11px; }
+    .period-switch a { padding: 6px 10px; }
+    .trend-period-heading h2 { font-size: 15px; }
+}

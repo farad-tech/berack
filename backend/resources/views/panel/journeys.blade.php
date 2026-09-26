@@ -19,6 +19,7 @@
     <div class="metric"><span class="metric-icon neutral"><x-panel.icon name="queue-list" /></span><div><span>{{ __('panel.average_steps') }}</span><strong>{{ number_format($stats->average_steps, 1) }}</strong></div></div>
 </section>
 <div class="view-tabs" role="navigation" aria-label="{{ __('panel.reports') }}">
+    <a class="view-tab" href="{{ route('panel.sites.trends', $site) }}"><x-panel.icon name="chart-bar" />Trends</a>
     <a @class(['view-tab', 'selected' => $view === 'journeys']) href="{{ route('panel.sites.reports', $site).'?'.http_build_query(array_merge(request()->except(['page', 'stepsPage', 'journeyId']), ['view' => 'journeys'])) }}"><x-panel.icon name="arrow-trending-up" />{{ __('panel.journeys') }}<span class="tab-count">{{ number_format($journeys->total()) }}</span></a>
     <a @class(['view-tab', 'selected' => $view === 'last-pages']) href="{{ route('panel.sites.reports', $site).'?'.http_build_query(array_merge(request()->except(['page', 'stepsPage', 'journeyId']), ['view' => 'last-pages'])) }}"><x-panel.icon name="flag" />{{ __('panel.last_pages') }}</a>
 </div>

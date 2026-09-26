@@ -21,6 +21,7 @@
     @endif
 </div>
 @if ($site)
+<section class="danger-section"><div><h2>Reset recorded data</h2><p class="muted">Remove this site's recorded visits while keeping its settings and installation tag.</p></div><a class="button danger" href="{{ route('panel.sites.reset', $site) }}"><x-panel.icon name="arrow-path" />Reset data</a></section>
 <section class="danger-section"><div><h2>{{ __('panel.danger') }}</h2><p class="muted">{{ __('panel.delete_description') }}</p></div><form method="post" action="{{ route('panel.sites.destroy', $site) }}" data-confirm="{{ __('panel.delete_warning') }}">@csrf @method('delete')<button class="button danger"><x-panel.icon name="trash" />{{ __('panel.delete_site') }}</button></form></section>
 @endif
 @endsection
