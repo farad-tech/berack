@@ -25,6 +25,12 @@ class ExampleTest extends TestCase
             ->assertSee('https://github.com/farad-tech/berack')
             ->assertSee('journey-canvas')
             ->assertSee('Last recorded', false)
+            ->assertSee('OPEN-SOURCE WEBSITE ANALYTICS')
+            ->assertSee('visitor journey analytics')
+            ->assertSee('application/ld+json', false)
+            ->assertSee('FAQPage')
+            ->assertSee('What is Berack?')
+            ->assertSee('landing-seo.css')
             ->assertSee('contact[at]berack.com');
     }
 

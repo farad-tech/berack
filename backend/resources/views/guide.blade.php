@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v={{ filemtime(public_path('css/landing.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/guide.css') }}?v={{ filemtime(public_path('css/guide.css')) }}">
     <script src="{{ asset('js/guide.js') }}?v={{ filemtime(public_path('js/guide.js')) }}" defer></script>
+    <script async src="https://berack.ir/sdk/trk_V0j6b0Q9Q5wUMcluubbQvJfzPlfYMJb6HHMGE3u26Nr8Jyxo.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
