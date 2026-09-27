@@ -6,11 +6,12 @@ import { observePageChanges } from './modules/navigation-observer';
 import { enqueueEvent, initializeQueue } from './modules/event-queue';
 import { sendQueuedEventsWithBeacon } from './modules/beacon-sender';
 import { sendQueuedEvents } from './modules/event-sender';
+import { isAutomatedBrowser } from './modules/bot-detector';
 
 const config = createTrackerConfigFromScript();
 const installed = window.__berackInstalled ||= new Set();
 
-if (config.apiKey && !installed.has(config.apiKey)) {
+if (!isAutomatedBrowser() && config.apiKey && !installed.has(config.apiKey)) {
     installed.add(config.apiKey);
     const session = createVisitSession(config.apiKey);
     const initialize = () => session.initialize().then((tabId) => initializeQueue(`${config.apiKey}:${tabId}`));

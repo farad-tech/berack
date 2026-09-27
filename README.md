@@ -14,6 +14,7 @@ Users can register, add their websites, receive a site-specific API key and SDK 
 - Generated SDK URL and install snippet per site.
 - Page view collection from a browser SDK.
 - Laravel endpoint for batched event ingestion.
+- Known bot/crawler filtering at ingestion and automated-browser filtering in the SDK.
 - Per-user analytics isolation in the panel.
 - Per-site visit journeys with independent tab histories and last-page reports.
 - MySQL-friendly local setup.
@@ -89,6 +90,16 @@ After creating a site in the panel, Berack gives you a snippet like:
 ```
 
 Add it to every page of the tracked website. The SDK records page views, SPA navigation changes, browser/visit/tab IDs, sequence numbers, previous URLs, referrers, and timestamps. It does not collect screen, viewport, language, or user-agent data.
+
+## Bot Filtering
+
+The ingestion endpoint uses `jaybizzle/crawler-detect` to check request headers (including `User-Agent`, `From`, and `Sec-CH-UA`) for known bots, crawlers, previews, and automated tools. This does not block crawlers from public pages or change SEO access.
+
+Valid bot batches return HTTP 200 with `{"ok":true,"saved":0,"ignored":true,"reason":"bot"}` and CORS headers, but no events are stored. Validation still applies. Empty or unrecognized user agents are not automatically blocked; normal mobile browsers remain eligible.
+
+The SDK skips initialization for browsers advertising WebDriver automation, HeadlessChrome, or PhantomJS. This also excludes automated browser tests. Other known crawler signatures are filtered by the backend, including requests from older SDKs. Header values are inspected without adding them to stored event payloads.
+
+Filtering applies only to new requests, not existing data. It is best-effort, not a security boundary: bots can spoof headers or hide automation. Keep the library current through reviewed Composer updates. Deploy with `composer install --no-dev --optimize-autoloader` in `backend`. Build and manually publish the updated SDK using [sdk/README.md](sdk/README.md); purge any cached SDK asset on deployment. No database migration is required for this filter.
 
 ## Journey Semantics
 

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Site;
 use App\Models\TrackerEvent;
+use App\Support\BotDetector;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 
 class TrackerEventController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, BotDetector $bots)
     {
         $request->validate([
             'api_key' => ['required', 'string', 'exists:sites,api_key'],
@@ -28,6 +29,16 @@ class TrackerEventController extends Controller
             'events.*.referrer' => ['nullable', 'string', 'max:2048'],
             'events.*.timestamp' => ['nullable', 'date'],
         ]);
+
+        if ($bots->matches($request)) {
+            // Acknowledge discarded batches so clients do not retry them indefinitely.
+            return response()->json([
+                'ok' => true,
+                'saved' => 0,
+                'ignored' => true,
+                'reason' => 'bot',
+            ])->withHeaders($this->corsHeaders());
+        }
 
         $site = Site::where('api_key', $request->input('api_key'))->firstOrFail();
         $events = $request->input('events', []);
